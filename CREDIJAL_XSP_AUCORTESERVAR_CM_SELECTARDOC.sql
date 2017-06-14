@@ -223,8 +223,8 @@ SET NOCOUNT ON
 									AUCorteServ.TipoCreditoCompleto,
 									AUCtasServ.ARAcct, 
 									AUCtasServ.ARSub,
-									AUCorteServ.TipoCredito,
-									AUCORTESERV.IvaCXC
+									AUCorteServ.TipoCredito--,
+									--AUCORTESERV.IvaCXC
 							ORDER BY CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101), AUCorteServ.CpnyId, AUCorteServ.SucursalId
 							OPEN ARDoc_Cursor
 							FETCH NEXT FROM ARDoc_Cursor
