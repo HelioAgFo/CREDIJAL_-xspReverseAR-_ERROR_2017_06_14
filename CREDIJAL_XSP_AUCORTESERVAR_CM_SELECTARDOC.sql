@@ -1,16 +1,18 @@
 SELECT 
-									(Select top 1 refnbr from AUCorteServ where ServiceCallId = @IDOportunity order by RefNbr) Refnbr,
+									(Select top 1 refnbr from AUCorteServ where ServiceCallId = '{17F8984E-D926-E711-80ED-00155D6D0604}' order by RefNbr) Refnbr,
 									AUCtasServ.ARAcct,
 									AUCtasServ.ARSub,
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
 									AUCorteServ.CustID, AUCorteServ.ServiceCallID, 
-									DATEADD(DAY, Terms.DueIntrv, 
+									--DATEADD(DAY, Terms.DueIntrv, 
+									DATEADD(DAY, 0, 
 									CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101)),
 									'' Asesor, Customer.TaxID00, 
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
-									ISNULL(terms.TermsId, 'A7'),
+									--ISNULL(terms.TermsId, 'A7'),
+									'',
 									aucorteserv.NumeroContrato,
 									CONVERT(VARCHAR(3), AUCorteServ.plazo),
 									AUCorteServ.TipoCreditoCompleto,
@@ -23,26 +25,31 @@ SELECT
 									AUCorteServ.CustID = Customer.CustId
 									INNER JOIN SalesTax ON
 									Customer.TaxID00 = SalesTax.TaxId
-									LEFT OUTER JOIN Terms ON
-									AUCorteServ.PLAZO = Terms.NbrInstall
+									--LEFT OUTER JOIN Terms ON
+									--AUCorteServ.PLAZO = Terms.NbrInstall
 									LEFT OUTER JOIN AUCtasServ ON 
 									AUCorteServ.CpnyID = AUCtasServ.CpnyId
 									AND AUCorteServ.TipoCredito = AUCtasServ.CallType
 									AND AUCorteServ.TipoVehiculo = AUCtasServ.ClassId
 										WHERE AUCorteServ.RefNbr != '' AND 
  									CONVERT(VARCHAR(4), YEAR(CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101)), 0) + '' + 
- 										RIGHT(CONVERT(VARCHAR(3), 100 + MONTH(CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101)), 0), 2) = @PerPost AND
+ 										RIGHT(CONVERT(VARCHAR(3), 100 + MONTH(CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101)), 0), 2) = '201706' AND
  									AUCorteServ.ARBatNbr = ''  AND
- 									CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101) = @DocDate AND
- 									AUCorteServ.SucursalID = @SucursalID AND
- 									AUCorteServ.CpnyID = @CpnyId AND
-									AUCORTESERV.SERVICECALLID = @IDOportunity
+ 									CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101) = '06/14/2017' AND
+ 									AUCorteServ.SucursalID = 'FINANCIERA' AND
+ 									AUCorteServ.CpnyID = 'FINANCIERA' AND
+									AUCORTESERV.SERVICECALLID = '{17F8984E-D926-E711-80ED-00155D6D0604}' 
+									--AND	TERMS.APPLYTO = 'C'
 									GROUP BY --AUCorteServ.RefNbr,
-									AUCorteServ.CustID, AUCorteServ.ServiceCallID, DATEADD(DAY, Terms.DueIntrv, AUCorteServ.DocDate2),
-									Customer.TaxID00, SalesTax.TaxRate, Terms.DueIntrv,
+									AUCorteServ.CustID, AUCorteServ.ServiceCallID, 
+									--DATEADD(DAY, Terms.DueIntrv, AUCorteServ.DocDate2),
+									DATEADD(DAY, 0, AUCorteServ.DocDate2),
+									--Customer.TaxID00, SalesTax.TaxRate, Terms.DueIntrv,
+									Customer.TaxID00, SalesTax.TaxRate, --0,
 									CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101),
 									AUCorteServ.CpnyID, AUCorteServ.SucursalID, 
-									terms.TermsId,
+									--terms.TermsId,
+									--0,
 									aucorteserv.NumeroContrato,
 									AUCorteServ.plazo,
 									AUCorteServ.TipoCreditoCompleto,
