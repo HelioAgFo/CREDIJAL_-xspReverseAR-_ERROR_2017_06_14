@@ -173,12 +173,14 @@ SET NOCOUNT ON
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
 									AUCorteServ.CustID, AUCorteServ.ServiceCallID, 
-									DATEADD(DAY, Terms.DueIntrv, 
+									--DATEADD(DAY, Terms.DueIntrv, 
+									DATEADD(DAY, 0, 
 									CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101)),
 									'' Asesor, Customer.TaxID00, 
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
 									Round(LTRIM(Convert(decimal(10, 2),SUM(AUCorteServ.Pago))),2),
-									ISNULL(terms.TermsId, 'A7'),
+									--ISNULL(terms.TermsId, 'A7'),
+									'',
 									aucorteserv.NumeroContrato,
 									CONVERT(VARCHAR(3), AUCorteServ.plazo),
 									AUCorteServ.TipoCreditoCompleto,
@@ -191,8 +193,8 @@ SET NOCOUNT ON
 									AUCorteServ.CustID = Customer.CustId
 									INNER JOIN SalesTax ON
 									Customer.TaxID00 = SalesTax.TaxId
-									LEFT OUTER JOIN Terms ON
-									AUCorteServ.PLAZO = Terms.NbrInstall
+									--LEFT OUTER JOIN Terms ON
+									--AUCorteServ.PLAZO = Terms.NbrInstall
 									LEFT OUTER JOIN AUCtasServ ON 
 									AUCorteServ.CpnyID = AUCtasServ.CpnyId
 									AND AUCorteServ.TipoCredito = AUCtasServ.CallType
@@ -206,11 +208,15 @@ SET NOCOUNT ON
  									AUCorteServ.CpnyID = @CpnyId AND
 									AUCORTESERV.SERVICECALLID = @IDOportunity
 									GROUP BY --AUCorteServ.RefNbr,
-									AUCorteServ.CustID, AUCorteServ.ServiceCallID, DATEADD(DAY, Terms.DueIntrv, AUCorteServ.DocDate2),
-									Customer.TaxID00, SalesTax.TaxRate, Terms.DueIntrv,
+									AUCorteServ.CustID, AUCorteServ.ServiceCallID, 
+									--DATEADD(DAY, Terms.DueIntrv, AUCorteServ.DocDate2),
+									DATEADD(DAY, 0, AUCorteServ.DocDate2),
+									--Customer.TaxID00, SalesTax.TaxRate, Terms.DueIntrv,
+									Customer.TaxID00, SalesTax.TaxRate, --0,
 									CONVERT(VARCHAR(10), AUCorteServ.DocDate2, 101),
 									AUCorteServ.CpnyID, AUCorteServ.SucursalID, 
-									terms.TermsId,
+									--terms.TermsId,
+									--0,
 									aucorteserv.NumeroContrato,
 									AUCorteServ.plazo,
 									AUCorteServ.TipoCreditoCompleto,
